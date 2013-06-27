@@ -4,7 +4,7 @@
     "nav" : {
         "home" : "首頁",
         "help" : "幫助",
-        "about" : "關於"
+        "graph" : "圖表"
     },
     "autoupdate-info" : "本頁面每 10秒 自動更新一次",
     "table" : {

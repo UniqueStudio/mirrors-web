@@ -4,7 +4,7 @@
     "nav" : {
         "home" : "主页",
         "help" : "帮助",
-        "about" : "关于"
+        "graph" : "图表"
     },
     "autoupdate-info" : "本页每 10 秒种自动更新",
     "table" : {
