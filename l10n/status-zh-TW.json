@@ -1,0 +1,8 @@
+{
+    "status" : {
+        "Succeeded" : "同步成功",
+        "Failed" : "同步失敗",
+        "Unknown" : "未知",
+        "Synchronizing" : "正在同步"
+    }
+}
