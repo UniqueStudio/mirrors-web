@@ -43,6 +43,23 @@
 			#wrap > .container {
 				padding-top: 60px;
 			}
+			@-moz-keyframes spin {
+				from { -moz-transform: rotate(0deg); }
+				to { -moz-transform: rotate(360deg); }
+			}
+			@-webkit-keyframes spin {
+				from { -webkit-transform: rotate(0deg); }
+				to { -webkit-transform: rotate(360deg); }
+			}
+			@keyframes spin {
+				from {transform:rotate(0deg);}
+				to {transform:rotate(360deg);}
+			}
+			.icon-refresh:hover {
+				-moz-animation: spin 1s linear infinite;
+				-webkit-animation: spin 1s linear infinite;
+				animation: spin 1s linear infinite;
+			}
 		</style>
 		<link href="/assets/css/bootstrap-responsive.min.css" rel="stylesheet"/>
 	</head>
@@ -73,7 +90,6 @@
 						<tr id="centos" class="mirrors"><td><a href="centos/">CentOS</a></td></tr>
 						<tr id="cygwin" class="mirrors"><td><a href="cygwin/">Cygwin</a></td></tr>
 						<tr id="debian" class="mirrors"><td><a href="debian/">Debian</a></td></tr>
-						<tr id="debian-backports" class="mirrors"><td><a href="debian-backports/">Debian Backports</a></td></tr>
 						<tr id="debian-cd" class="mirrors"><td><a href="debian-cd/">Debian CD</a></td></tr>
 						<tr id="deepin" class="mirrors"><td><a href="deepin/">Deepin</a></td></tr>
 						<tr id="deepin-cd" class="mirrors"><td><a href="deepin-cd/">Deepin CD</a></td></tr>
@@ -89,6 +105,7 @@
 						<tr id="opensuse" class="mirrors"><td><a href="opensuse/">openSUSE</a></td></tr>
 						<tr id="pypi" class="mirrors"><td><a href="pypi/">Python Package Index</a></td></tr>
 						<tr id="raspbian" class="mirrors"><td><a href="raspbian/">Raspbian</a></td></tr>
+						<tr id="rubygems" class="mirrors"><td><a href="rubygems/">Ruby Gems</a></td></tr>
 						<tr id="sagemath" class="mirrors"><td><a href="sagemath/">Sage</a></td></tr>
 						<tr id="ubuntu" class="mirrors"><td><a href="ubuntu/">Ubuntu</a></td></tr>
 						<tr id="ubuntu-releases" class="mirrors"><td><a href="ubuntu-releases/">Ubuntu Releases</a></td></tr>
@@ -118,7 +135,7 @@
 		}
         function request_user_update(what) {
             $.get('http://mirrors.hustunique.com/remote/user_request_update/?what=' + what + "&t=" + new Date().getTime(), function(result) {
-					$('#user-' + what).popover({placement:'left',title:'User requested update',content:result,trigger:'manual'});
+					$('#user-' + what).popover({placement:'left',content:result,trigger:'manual'});
 					$('#user-' + what).popover('show');
 					setTimeout(5000, function (){$('#user-' + what).popover('destroy');})
                     });
@@ -129,7 +146,7 @@
 					var name = $(this).attr('id');
 					$.getJSON('status/' + name + '.json?t=' + new Date().getTime(), function (result) {
 							var pname = result["name"];
-                            td_operation = '<td><i id="user-' + pname + '" onclick="request_user_update(\'' + pname + '\');" class="icon-refresh"></i></td>';
+							td_operation = '<td><i id="user-' + pname + '" onclick="request_user_update(\'' + pname + '\');" class="icon-refresh" title="Request sync"></i></td>';
 							var pselector = $('#' + pname);
 							pselector.find(":not(:first-child)").remove();
 							switch (result['status']) {
