@@ -10,14 +10,22 @@
 			body {
 				height: 100%;
 			}
+			pre {
+				background-color: #000;
+				color: #FFF;
+			}
 			.container {
 				width: auto;
 			}
 			.container .credit {
-				margin: 13px 0;
+				margin: 5px 0;
 			}
 			.centerblock {
 				text-align: center;
+			}
+			.biggermodal {
+				width: 80%;
+				margin-left: -40%;
 			}
 			#wrap {
 				min-height: 100%;
@@ -71,19 +79,29 @@
 						<a class="brand" href="/" data-localize="main-name">HUST Open Source Mirrors</a>
 						<ul class="nav">
 							<li class="active"><a href="/" data-localize="nav.home">Home</a></li>
-							<li><a href="/help" data-localize="nav.help">Help</a></li>
-							<li><a href="/graph" data-localize="nav.graph">Graph</a></li>
+							<li><a href="/help/" data-localize="nav.help">Help</a></li>
+							<li><a href="/graph/" data-localize="nav.graph">Graph</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 			<div class="container">
+				<div id="logwindow" class="modal biggermodal hide fade" tabindex="-1" role="dialog" aria-labelledby="logheader" aria-hidden="true">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h3 id="logheader"></h3>
+					</div>
+					<pre id="logcontent" class="modal-body"></pre>
+					<div class="modal-footer">
+						<button class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+					</div>
+				</div>
 				<div class="centerblock">
-                    <h1 data-localize="title">HUST Open Source Mirrors</h1>
+					<h1 data-localize="title">HUST Open Source Mirrors</h1>
 					<p data-localize="autoupdate-info">The table below is automatically updated every 10 seconds.</p>
 					<noscript><div class="alert alert-error"><span data-localize="javascript-needed">Javascript is required. 本页面需要 Javascript。</span></div></noscript>
 					<table class="table" id="mirrorstable">
-                        <tr><th data-localize="table.name">Name</th><th data-localize="table.upstream">Upstream</th><th data-localize="table.size">Size</th><th data-localize="table.status">Status</th><th data-localize="table.lastupdate">Last Update</th><th data-localize="table.nextupdate">Next Update</th><th></th></tr>
+                        <tr><th data-localize="table.name">Name</th><th data-localize="table.upstream">Upstream</th><th data-localize="table.size">Size</th><th data-localize="table.status">Status</th><th data-localize="table.lastupdate">Last Update</th><th data-localize="table.nextupdate">Next Update</th><th><span title="Request to synchronize now">Req</span></th><th data-localize="table.logs"><span title="View realtime updated log">Logs</span></th></tr>
 						<tr id="archlinux" class="mirrors"><td><a href="archlinux/">Arch Linux</a></td></tr>
 						<tr id="archlinuxarm" class="mirrors"><td><a href="archlinuxarm/">Arch Linux ARM</a></td></tr>
 						<tr id="backtrack-iso" class="mirrors"><td><a href="backtrack-iso/">BackTrack ISO</a></td></tr>
@@ -113,10 +131,11 @@
 				</div>
 			</div>
 			<div id="push"></div>
-            		</div>
+					</div>
 		<div id="footer">
 			<div class="container centerblock">
 				<p class="muted credit" data-localize="credit">This site is brought to you by <a href="http://qiming.hust.edu.cn/" target="qiming">Qiming College, HUST</a> and <a href="http://www.hustunique.com/" target="_blank">Unique Studio</a>.</p>
+				<p class="muted credit" data-localize="network">Network provided by <a href="http://ncc.hust.edu.cn/" target="ncc">Network and Computational Center, HUST</a>.</p>
 				<p class="muted credit" data-localize="contact">Contact us at <a href="http://www.google.com/recaptcha/mailhide/d?k=01h7Er0RVnO4wvIFgIk2lR-g==&c=-7_mZ8fYpJyWgM9qxj57zKaij5zJpRkBUBNpq2619zs=" target="_blank" onclick="window.open('http://www.google.com/recaptcha/mailhide/d?k=01h7Er0RVnO4wvIFgIk2lR-g==&c=-7_mZ8fYpJyWgM9qxj57zKaij5zJpRkBUBNpq2619zs=', '', 'toolbar=0,scroolbars=0,location=0,menubar=0,resizable=0,width=500,height=300');return false;">our email address</a></p>
 			</div>
 		</div>
@@ -125,79 +144,155 @@
 		<script src="/assets/js/strftime.min.js" type="text/javascript"></script>
 		<script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
 		<script src="/assets/js/bootstrap-tooltip.js" type="text/javascript"></script>
+		<script src="/assets/js/bootstrap-modal.js" type="text/javascript"></script>
 		<script src="/assets/js/bootstrap-popover.js" type="text/javascript"></script>
 		<script type="text/javascript">
-		l10nopts = { skipLanguage: ["en", "en-US"], pathPrefix: "/l10n" };
-		$('[data-localize]').localize('index', l10nopts);
-		function ws(str, element, attr) {
-			if (!attr) attr = "";
-			return '<' + element + ' ' + attr + '>' + str + '</' + element + '>';
-		}
-        function request_user_update(what) {
-            $.get('http://mirrors.hustunique.com/remote/user_request_update/?what=' + what + "&t=" + new Date().getTime(), function(result) {
-					$('#user-' + what).popover({placement:'left',content:result,trigger:'manual'});
-					$('#user-' + what).popover('show');
-					setTimeout(5000, function (){$('#user-' + what).popover('destroy');})
-                    });
-        }
-		function checker() {
-			$('.mirrors').each(
-				function() {
-					var name = $(this).attr('id');
-					$.getJSON('status/' + name + '.json?t=' + new Date().getTime(), function (result) {
-							var pname = result["name"];
-							td_operation = '<td><i id="user-' + pname + '" onclick="request_user_update(\'' + pname + '\');" class="icon-refresh" title="Request sync"></i></td>';
-							var pselector = $('#' + pname);
-							pselector.find(":not(:first-child)").remove();
-							switch (result['status']) {
-								case 'success':
-									result['status'] = 'Succeeded'
-									pselector.attr('class', "mirrors success");
-									break;
-								case 'failed':
-									result['status'] = 'Failed'
-									pselector.attr('class', "mirrors error");
-									break;
-								case 'syncing':
-									result['status'] = 'Synchronizing'
-									pselector.attr('class', "mirrors info");
-									break;
-								default:
-									result['status'] = 'Unknown'
-									pselector.attr('class', "mirrors warning");
-							}
-							var td_upstream = ws(result['upstream'], 'td');
+			l10nopts = { skipLanguage: ["en", "en-US"], pathPrefix: "/l10n" };
+$('[data-localize]').localize('index', l10nopts);
+function ws(str, element, attr) {
+	if (!attr) attr = "";
+	return '<' + element + ' ' + attr + '>' + str + '</' + element + '>';
+}
+function request_user_update(what) {
+	$.get('http://mirrors.hustunique.com/remote/user_request_update/?what=' + what + "&t=" + new Date().getTime(), function(result) {
+			$('#userreq-' + what).popover({placement:'left',content:result,trigger:'manual'});
+			$('#userreq-' + what).popover('show');
+			setTimeout(5000, function (){$('#user-' + what).popover('destroy');})
+			});
+}
+log_repo = "";
+log_size = 0;
+log_data = "";
+log_show = false;
+log_first_show = true;
+$('#logwindow').on('hidden', function () {
+		log_show = false;
+		log_first_show = true;
+		});
 
-							if (!result['size'] || result['size'] < 0)
-								result['size'] = 'Unknown';
-							var td_size = ws(result['size'], 'td');
+function show_log(repo) {
+	log_show = true;
+	log_repo = repo;
+	log_size = 0;
+	log_data = "";
+	repo_name = $('#' + repo + ' a')[0].innerText;
+	$('#logheader').text("Logs for " + repo_name);
+	$('#logwindow').modal("show");
+	log_fetch_content();
+}
+function log_fetch_content() {
+	var range="-30720";
+	var newsize;
+	if (!log_show) { return; }
+	if (log_size > 0) range= (log_size - 1).toString() + '-';
+	$.ajax('http://mirrors.hustunique.com/latestlog/' + log_repo + '.txt?t=' + new Date().getTime(),
+			{type:'GET',
+			headers: {Range: 'Bytes='+range},
+			success:
+				function(data, s, xhr) {
+					if (xhr.status == 206) {
+						newsize = parseInt(xhr.getResponseHeader('Content-Range').split('/')[1]);
+					} else if (xhr.status == 200) {
+						newsize = data.length;
+					}
+					if (log_size == 0) {
+						if (data.size < log_size)
+							log_data = data.substring(data.indexOf("\n") + 1);
+						else
+							log_data = data;
+					} else  {
+						log_data += data.substring(1);
+					}
+					log_size = newsize;
+					if (log_data.length > 30720) {
+						log_data = log_data.substring(log_data.indexOf('\n', log_data.length - 30720));
+					}
+					log_fill_content(log_data);
+					setTimeout(log_fetch_content, 200);
+				},
+			error:
+				function(xhr, s, t) {
+					log_size = 0;
+					log_data = "";
+					log_fill_content("");
+					setTimeout(log_fetch_content, 200);
+				}
+			});
+}
+function log_scroll_content_bottom() {
+	var pconsole = $('#logcontent');
+	console.log(pconsole[0].scrollHeight);
+	pconsole.scrollTop(pconsole[0].scrollHeight - pconsole.height());
+}
+function log_fill_content(data) {
+	var pconsole = $('#logcontent');
+	var offset = 30; // No idea why there's always 30px
+	var oldscrollHeight = pconsole[0].scrollHeight
+	data = data.replace('/\n/g', '\r\n');
+	$('#logcontent').text("[...Truncated...]\n" + $.trim(data));
+	console.log(log_first_show, pconsole[0].scrollHeight);
+	if (pconsole.scrollTop() + pconsole.height() + offset >= oldscrollHeight)
+		pconsole.scrollTop(pconsole[0].scrollHeight - pconsole.height());
+    if (log_first_show) { log_first_show = false; setTimeout(log_scroll_content_bottom, 400); }
+}
+function checker() {
+	$('.mirrors').each(
+		function() {
+			var name = $(this).attr('id');
+			$.getJSON('status/' + name + '.json?t=' + new Date().getTime(), function (result) {
+					var pname = result["name"];
+					td_operation = '<td><i id="userreq-' + pname + '" onclick="request_user_update(\'' + pname + '\');" class="icon-refresh" title="Request to synchronize now"></i></td><td><i title="View realtime updated log" id="showlog-' + pname + '"onclick="show_log(\'' + pname + '\');" class="icon-file" title="Show Log"></i></td>';
+					var pselector = $('#' + pname);
+					pselector.find(":not(:first-child)").remove();
+					switch (result['status']) {
+						case 'success':
+							result['status'] = 'Succeeded'
+							pselector.attr('class', "mirrors success");
+							break;
+						case 'failed':
+							result['status'] = 'Failed'
+							pselector.attr('class', "mirrors error");
+							break;
+						case 'syncing':
+							result['status'] = 'Synchronizing'
+							pselector.attr('class', "mirrors info");
+							break;
+						default:
+							result['status'] = 'Unknown'
+							pselector.attr('class', "mirrors warning");
+					}
+					var td_upstream = ws(result['upstream'], 'td');
 
-							var td_status = ws(result['status'], 'td', 'data-localize="status.' + result['status'] + '"');
+					if (!result['size'] || result['size'] < 0)
+						result['size'] = 'Unknown';
+					var td_size = ws(result['size'], 'td');
 
-							var lastupdate_date = new Date(parseInt(result['lastsync']) * 1000);
-							if (!result['lastsync'] || parseInt(result['lastsync']) <= 0) {
-								var not_synced_before = true;
-								var td_lastupdate = ws("Not synced before", "td");
-							} else
-								var td_lastupdate = ws(strftime("%Y-%m-%d %H:%M:%S", lastupdate_date), 'td');
+					var td_status = ws(result['status'], 'td', 'data-localize="status.' + result['status'] + '"');
 
-							var nextupdate_date = new Date(parseInt(result['nextsync']) * 1000);
-							if (!result['nextsync'] || parseInt(result['nextsync']) <= 0)
-								if (not_synced_before)
-									var td_nextupdate = ws("Not synced before", "td");
-								else if (parseInt(result['nextsync']) == -1)
-									var td_nextupdate = ws("Forced re-synchronizing", "td");
-                                else
-									var td_nextupdate = ws("User requested update", "td");
-							else
-								var td_nextupdate = ws(strftime("%Y-%m-%d %H:%M:%S", nextupdate_date), 'td');
+					var lastupdate_date = new Date(parseInt(result['lastsync']) * 1000);
+					if (!result['lastsync'] || parseInt(result['lastsync']) <= 0) {
+						var not_synced_before = true;
+						var td_lastupdate = ws("Not synced before", "td");
+					} else
+						var td_lastupdate = ws(strftime("%Y-%m-%d %H:%M:%S", lastupdate_date), 'td');
 
-							pselector.append(td_upstream, td_size, td_status, td_lastupdate, td_nextupdate, td_operation);
-					});
-				});
-			setTimeout(checker, 10000);
-		}
-		checker();
+					var nextupdate_date = new Date(parseInt(result['nextsync']) * 1000);
+					if (!result['nextsync'] || parseInt(result['nextsync']) <= 0)
+						if (not_synced_before)
+							var td_nextupdate = ws("Not synced before", "td");
+						else if (parseInt(result['nextsync']) == -1)
+							var td_nextupdate = ws("Forced re-synchronizing", "td");
+						else
+							var td_nextupdate = ws("User requested update", "td");
+					else
+						var td_nextupdate = ws(strftime("%Y-%m-%d %H:%M:%S", nextupdate_date), 'td');
+
+					pselector.append(td_upstream, td_size, td_status, td_lastupdate, td_nextupdate, td_operation);
+			});
+		});
+	setTimeout(checker, 10000);
+}
+checker();
 		</script>
 	</body>
 </html>
