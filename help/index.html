@@ -14,7 +14,7 @@
 				width: auto;
 			}
 			.container .credit {
-				margin: 13px 0;
+				margin: 5px 0;
 			}
 			.centerblock {
 				text-align: center;
@@ -57,8 +57,8 @@
 						<a class="brand" href="/" data-localize="main-name">HUST Open Source Mirrors</a>
 						<ul class="nav">
 							<li><a href="/" data-localize="nav.home">Home</a></li>
-							<li class="active"><a href="/help" data-localize="nav.help">Help</a></li>
-							<li><a href="/graph" data-localize="nav.graph">Graph</a></li>
+							<li class="active"><a href="/help/" data-localize="nav.help">Help</a></li>
+							<li><a href="/graph/" data-localize="nav.graph">Graph</a></li>
 						</ul>
 					</div>
 				</div>
@@ -76,42 +76,47 @@
 								<li><a href="#archlinuxarm"><i class="icon-chevron-right"></i> Arch Linux ARM</a></li>
 								<li><a href="#centos"><i class="icon-chevron-right"></i> CentOS</a></li>
 								<li><a href="#cygwin"><i class="icon-chevron-right"></i> Cygwin</a></li>
+								<li><a href="#debian"><i class="icon-chevron-right"></i> Debian</a></li>
 								<li><a href="#fedora"><i class="icon-chevron-right"></i> Fedora</a></li>
 								<li><a href="#gentoo"><i class="icon-chevron-right"></i> Gentoo</a></li>
 								<li><a href="#gentoo-portage"><i class="icon-chevron-right"></i> Gentoo Portage</a></li>
+								<li><a href="#pypi"><i class="icon-chevron-right"></i> PyPI</a></li>
+								<li><a href="#rubygems"><i class="icon-chevron-right"></i> RubyGems</a></li>
+								<li><a href="#ubuntu"><i class="icon-chevron-right"></i> Ubuntu</a></li>
 							</ul>
 						</div>
 					</div>
 					<div id="content" class="span10">
 						<section id="archlinux">
 							<div class="page-header"><h2>Arch Linux</h2></div>
-							<h3>Mirrored architectures</h3>
+							<h3 data-localize="march">Mirrored architectures</h3>
 							<ul>
 								<li>i686</li>
 								<li>x86_64</li>
 							</ul>
-							<h3>Usage</h3>
+							<h3 data-localize="usage">Usage</h3>
 							<p>Add the following line into your <code>/etc/pacman.d/mirrorlist</code>:</p>
 							<pre>Server = http://mirrors.hustunique.com/archlinux/$repo/os/$arch</pre>
 						</section>
 						<section id="archlinuxarm">
 							<div class="page-header"><h2>Arch Linux ARM</h2></div>
+							<h3 data-localize="usage">Usage</h3>
 							<p>Add the following line into your <code>/etc/pacman.d/mirrorlist</code>:</p>
 							<pre>Server = http://mirrors.hustunique.com/archlinuxarm/$repo/os/$arch</pre>
 						</section>
 						<section id="centos">
 							<div class="page-header"><h2>CentOS</h2></div>
-							<h3>Mirrored architectures</h3>
+							<h3 data-localize="march">Mirrored architectures</h3>
 							<ul>
 								<li>i686</li>
 								<li>x86_64</li>
 							</ul>
-							<h3>Mirrored releases</h3>
+							<h3 data-localize="mrel">Mirrored releases</h3>
 							<ul>
 								<li>5</li>
 								<li>6</li>
 							</ul>
-							<h3>Usage</h3>
+							<h3 data-localize="usage">Usage</h3>
 							<p>First, backup <code>/etc/yum.repos.d/CentOS-Base.repo</code>:</p>
 							<pre>mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup</pre>
 							<p>Download <code>CentOS-Base.repo</code> for corresponding release.</p>
@@ -234,24 +239,52 @@ gpgkey=http://mirrors.hustunique.com/centos/RPM-GPG-KEY-CentOS-6</pre>
 						</section>
 						<section id="cygwin">
 							<div class="page-header"><h2>Cygwin</h2></div>
+							<h3 data-localize="usage">Usage</h3>
 							<p>In the Cygwin installer, choose "Install from Internet", and paste the following line into "User URL":</p>
 							<pre>http://mirrors.hustunique.com/cygwin</pre>
-							<h3>Related links</h3>
+							<h3 data-localize="related">Related links</h3>
 							<ul>
 								<li>Official homepage: <a href="http://www.cygwin.com/">http://www.cygwin.com/</a></li>
 								<li>Mailing lists: <a href="http://www.cygwin.com/lists.html">http://www.cygwin.com/lists.html</a></li>
 								<li>Documentation: <a href="http://cygwin.com/docs.html">http://cygwin.com/docs.html</a></li>
 							</ul>
 						</section>
+						<section id="debian">
+							<div class="page-header"><h2>Debian </h2></div>
+							<h3 data-localize="usage">Usage</h3>
+							<p>Edit <code>/etc/apt/sources.list</code></p>
+							<script type="text/javascript">
+function change_debian_ver() {
+	var ver = $('#debian_ver_selector').val();
+	$('.debianver').html(ver);
+}
+							</script>
+							<p>Version: <select id="debian_ver_selector" name="version" onchange="change_debian_ver();">
+							<option value="VERSION" selected>Please select</option>
+							<option value="stable">Stable</option>
+							<option value="wheezy">Wheezy (stable)</option>
+							<option value="testing">Testing</option>
+							<option value="unstable">Unstable</option>
+							</select>
+							<pre id="debian-sources-list">
+deb http://mirrors.hustunique.com/debian/ <span class="debianver">VERSION</span> main contrib non-free
+deb-src http://mirrors.hustunique.com/debian/ <span class="debianver">VERSION</span> main contrib non-free
+</pre>
+							<h3 data-localize="related">Related links</h3>
+							<ul>
+								<li>Official homepage: <a href="http://www.debian.org/">http://www.debian.org/</a></li>
+							</ul>
+						</section>
+
 						<section id="fedora">
 							<div class="page-header"><h2>Fedora</h2></div>
-							<h3>Mirrored Architectures</h3>
+							<h3 data-localize="march">Mirrored Architectures</h3>
 							<ul>
 								<li>i686</li>
 								<li>x86_64</li>
 								<li>source</li>
 							</ul>
-							<h3>Mirrored releases</h3>
+							<h3 data-localize="mrel">Mirrored releases</h3>
 							<h4>Releases</h4>
 							<ul>
 								<li>15</li>
@@ -269,6 +302,7 @@ gpgkey=http://mirrors.hustunique.com/centos/RPM-GPG-KEY-CentOS-6</pre>
 								<li>19</li>
 								<li>testing</li>
 							</ul>
+							<h3 data-localize="usage">Usage</h3>
 							<p>First, backup <code>/etc/yum.repos.d/fedora.repo</code> and <code>/etc/yun.repos.d/fedora-updates.repo</code>:</p>
 							<pre>mv /etc/yum.repos.d/fedora.repo /etc/yum.repos.d/fedora.repo.backup
 mv /etc/yum.repos.d/fedora-updates.repo /etc/yum.repos.d/fedora-updates.repo.backup</pre>
@@ -332,7 +366,7 @@ mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=updates-released-sour
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch</pre>
-							<h3>Related links</h3>
+							<h3 data-localize="related">Related links</h3>
 							<ul>
 								<li>Official homepage: <a href="https://fedoraproject.org/">https://fedoraproject.org/</a></li>
 								<li>Mailing lists: <a href="https://fedoraproject.org/wiki/Communicating_and_getting_help#Mailing_Lists">https://fedoraproject.org/wiki/Communicating_and_getting_help#Mailing_Lists</a></li>
@@ -344,10 +378,10 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch</pre>
 						</section>
 						<section id="gentoo">
 							<div class="page-header"><h2>Gentoo</h2></div>
-							<h3>Usage</h3>
+							<h3 data-localize="usage">Usage</h3>
 							<p>Add or edit the following line in <code>/etc/make.conf</code>:</p>
 							<pre>GENTOO_MIRRORS="http://mirrors.hustunique.com/gentoo/"</pre>
-							<h3>Related links</h3>
+							<h3 data-localize="related">Related links</h3>
 							<ul>
 								<li>Official homepage: <a href="http://www.gentoo.org/">http://www.gentoo.org/</a></li>
 								<li>Mailing lists: <a href="http://www.gentoo.org/main/en/lists.xml">http://www.gentoo.org/main/en/lists.xml</a></li>
@@ -357,10 +391,10 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch</pre>
 						</section>
 						<section id="gentoo-portage">
 							<div class="page-header"><h2>Gentoo Portage</h2></div>
-							<h3>Usage</h3>
+							<h3 data-localize="usage">Usage</h3>
 							<p>Add or edit the following line in <code>/etc/make.conf</code>:</p>
 							<pre>SYNC="rsync://mirrors.hustunique.com/gentoo-portage/"</pre>
-							<h3>Related links</h3>
+							<h3 data-localize="related">Related links</h3>
 							<ul>
 								<li>Official homepage: <a href="http://www.gentoo.org/">http://www.gentoo.org/</a></li>
 								<li>Mailing lists: <a href="http://www.gentoo.org/main/en/lists.xml">http://www.gentoo.org/main/en/lists.xml</a></li>
@@ -368,14 +402,79 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch</pre>
 								<li>Wiki: <a href="http://en.gentoo-wiki.com/">http://en.gentoo-wiki.com/</a></li>
 							</ul>
 						</section>
+						<section id="pypi">
+							<div class="page-header"><h2>PyPI </h2></div>
+							<h3 data-localize="usage">Usage</h3>
+							<p>For pip users, please add the following lines to <code>$HOME/.pip/pip.conf</code> (Unix, Linux, and Mac) or <code>%HOME%\pip\pip.ini</code> (Windows)<p>
+							<pre>
+[global]
+index-url=http://mirrors.hustunique.com/pypi/simple
+</pre>
+							<p>For easy_install users, run easy_install with arguments <code>-i http://mirrors.hustunique.com/pypi/simple</code></p>
+							<p>For buildout users, please add the following lines to your <code>buildout.cfg</code></p>
+							<pre>
+[buildout]
+index = http://mirrors.hustunique.com/pypi/simple
+</pre>
+						</section>
+						<section id="rubygems">
+							<div class="page-header"><h2>RubyGems </h2></div>
+							<h3 data-localize="usage">Usage</h3>
+							<p>For gem users, please run<p>
+							<pre>
+gem source -r http://rubygems.org/
+gem source -a http://mirrors.hustunique.com/rubygems/
+</pre>
+							<p>For bundle users, please change the <code>Gemfile</code></p>
+							<pre>
+source 'http://mirrors.hustunique.com/rubygems/'
+</pre>
+						</section>
+						<section id="ubuntu">
+							<div class="page-header"><h2>Ubuntu </h2></div>
+							<h3 data-localize="usage">Usage</h3>
+							<p>Edit <code>/etc/apt/sources.list</code></p>
+							<script type="text/javascript">
+function change_ubuntu_ver() {
+	var ver = $('#ubuntu_ver_selector').val();
+	$('.ubuntuver').html(ver);
+}
+							</script>
+							<p>Version: <select id="ubuntu_ver_selector" name="version" onchange="change_ubuntu_ver();">
+							<option value="VERSION" selected>Please select</option>
+							<option value="saucy">Saucy 13.10</option>
+							<option value="raring">Raring 13.04</option>
+							<option value="quantal">Quantal 12.10</option>
+							<option value="precise">Precise 12.04</option>
+							<option value="oneiric">Oneiric 11.10</option>
+							<option value="lucid">Lucid 10.04</option>
+							</select>
+							<pre id="ubuntu-sources-list">
+deb http://mirrors.hustunique.com/ubuntu/ <span class="ubuntuver">VERSION</span> main restricted universe multiverse
+deb http://mirrors.hustunique.com/ubuntu/ <span class="ubuntuver">VERSION</span>-security main restricted universe multiverse
+deb http://mirrors.hustunique.com/ubuntu/ <span class="ubuntuver">VERSION</span>-updates main restricted universe multiverse
+deb http://mirrors.hustunique.com/ubuntu/ <span class="ubuntuver">VERSION</span>-proposed main restricted universe multiverse
+deb http://mirrors.hustunique.com/ubuntu/ <span class="ubuntuver">VERSION</span>-backports main restricted universe multiverse
+deb-src http://mirrors.hustunique.com/ubuntu/ <span class="ubuntuver">VERSION</span> main restricted universe multiverse
+deb-src http://mirrors.hustunique.com/ubuntu/ <span class="ubuntuver">VERSION</span>-security main restricted universe multiverse
+deb-src http://mirrors.hustunique.com/ubuntu/ <span class="ubuntuver">VERSION</span>-updates main restricted universe multiverse
+deb-src http://mirrors.hustunique.com/ubuntu/ <span class="ubuntuver">VERSION</span>-proposed main restricted universe multiverse
+deb-src http://mirrors.hustunique.com/ubuntu/ <span class="ubuntuver">VERSION</span>-backports main restricted universe multiverse
+</pre>
+							<h3 data-localize="related">Related links</h3>
+							<ul>
+								<li>Official homepage: <a href="http://www.ubuntu.com/">http://www.ubuntu.com/</a></li>
+							</ul>
+						</section>
 					</div>
 				</div>
-                <div id="push"></div>
-            </div>
+				<div id="push"></div>
+			</div>
 		</div>
 		<div id="footer">
 			<div class="container centerblock">
 				<p class="muted credit" data-localize="credit">This site is brought to you by <a href="http://qiming.hust.edu.cn/" target="qiming">Qiming College, HUST</a> and <a href="http://www.hustunique.com/" target="_blank">Unique Studio</a>.</p>
+				<p class="muted credit" data-localize="network">Network provided by <a href="http://ncc.hust.edu.cn/" target="ncc">Network and Computational Center, HUST</a>.</p>
 				<p class="muted credit" data-localize="contact">Contact us at <a href="http://www.google.com/recaptcha/mailhide/d?k=01h7Er0RVnO4wvIFgIk2lR-g==&c=-7_mZ8fYpJyWgM9qxj57zKaij5zJpRkBUBNpq2619zs=" target="_blank" onclick="window.open('http://www.google.com/recaptcha/mailhide/d?k=01h7Er0RVnO4wvIFgIk2lR-g==&c=-7_mZ8fYpJyWgM9qxj57zKaij5zJpRkBUBNpq2619zs=', '', 'toolbar=0,scroolbars=0,location=0,menubar=0,resizable=0,width=500,height=300');return false;">our email address</a></p>
 			</div>
 		</div>
