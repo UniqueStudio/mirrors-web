@@ -32,6 +32,7 @@ function show_log(repo) {
 	log_data = "";
 	repo_name = $('#' + repo + ' a')[0].innerText;
 	$('#logheader').text("Logs for " + repo_name);
+    $('#logcontent').text("Loading...");
 	$('#logwindow').modal("show");
 	log_fetch_content();
 }
