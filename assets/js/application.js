@@ -18,7 +18,7 @@ function ws(str, element, attr) {
 }
 
 function request_user_update(what) {
-	$.get('http://mirrors.hustunique.com/remote/user_request_update/?what=' + what + "&t=" + new Date().getTime(), function(result) {
+	$.get('/remote/user_request_update/?what=' + what + "&t=" + new Date().getTime(), function(result) {
 			$('#userreq-' + what).popover({placement:'left',content:result,trigger:'manual'});
 			$('#userreq-' + what).popover('show');
 			setTimeout(5000, function (){$('#user-' + what).popover('destroy');})
@@ -40,7 +40,7 @@ function log_fetch_content() {
 	var newsize;
 	if (!log_show) { return; }
 	if (log_size > 0) range= (log_size - 1).toString() + '-';
-	$.ajax('http://mirrors.hustunique.com/latestlog/' + log_repo + '.txt?t=' + new Date().getTime(),
+	$.ajax('/latestlog/' + log_repo + '.txt?t=' + new Date().getTime(),
 			{type:'GET',
 			headers: {Range: 'Bytes='+range},
 			success:
