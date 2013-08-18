@@ -10,8 +10,9 @@
 			body {
 				height: 100%;
 			}
-			.container {
-				width: auto;
+			.container,
+			.navbar-fixed-top .container{
+				width: 80%;
 			}
 			.container .credit {
 				margin: 13px 0;
@@ -32,23 +33,14 @@
 			#footer {
 				background-color: #f5f5f5;
 			}
-			@media (max-width: 767px) {
-				#footer {
-					margin-left: -20px;
-					margin-right: -20px;
-					padding-left: 20px;
-					padding-right: 20px;
-				}
-			}
 			#wrap > .container {
 				padding-top: 60px;
 			}
 		</style>
-		<link href="/assets/css/bootstrap-responsive.min.css" rel="stylesheet" />
 	</head>
 	<body>
 		<div id="wrap">
-			<div class="navbar navbar-fixed-top">
+			<div class="navbar navbar-fixed-top navbar-inverse">
 				<div class="navbar-inner">
 					<div class="container">
 						<a class="brand" href="/" data-localize="main-name">HUST Open Source Mirrors</a>
@@ -64,7 +56,7 @@
 				<div class="centerblock">
 					<h1 data-localize="title">404 - HUST Open Source Mirrors</h1>
 					<p class="lead" data-localize="notfound.lead">The page you requested cannot be found on this server.</p>
-                    <p><img src="http://httpcats.herokuapp.com/404" class="img-polaroid" style="width: 40%"></img></p>
+					<p><img src="http://httpcats.herokuapp.com/404" class="img-polaroid" style="width: 40%"></img></p>
 					<p data-localize="notfound.info">If the repository is syncing for the first time, it will not be available until finished.<br/>If not, please contact us. See the bottom of this page for our E-mail address.</p>
 				</div>
 			</div>
