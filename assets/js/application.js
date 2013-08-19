@@ -7,22 +7,18 @@ log_size = 0;
 log_data = "";
 log_show = false;
 log_first_show = true;
+url = "/jsons?"
 $('#logwindow').on('hidden', function () {
 		log_show = false;
 		log_first_show = true;
 		});
 
-function ws(str, element, attr) {
-	if (!attr) attr = "";
-	return '<' + element + ' ' + attr + '>' + str + '</' + element + '>';
-}
-
-function request_user_update(what) {
-	$.get('/remote/user_request_update/?what=' + what + "&t=" + new Date().getTime(), function(result) {
-			$('#userreq-' + what).popover({placement:'left',content:result,trigger:'manual'});
-			$('#userreq-' + what).popover('show');
-			setTimeout(5000, function (){$('#user-' + what).popover('destroy');})
-			});
+function request_user_update(name) {
+	$.get('/remote/user_request_update/?what=' + name + "&t=" + new Date().getTime(), function(result) {
+		$('#' + name + '-userreq').popover({placement:'left',content:result,trigger:'manual'});
+		$('#' + name + '-userreq').popover('show');
+		setTimeout(function(){$('#' + name + '-userreq').popover('destroy')}, 3600);
+	});
 }
 
 function show_log(repo) {
@@ -32,7 +28,7 @@ function show_log(repo) {
 	log_data = "";
 	repo_name = $('#' + repo + ' a')[0].innerText;
 	$('#logheader').text("Logs for " + repo_name);
-    $('#logcontent').text("Loading...");
+	$('#logcontent').text("Loading...");
 	$('#logwindow').modal("show");
 	log_fetch_content();
 }
@@ -89,63 +85,79 @@ function log_fill_content(data) {
 		pconsole.scrollTop(pconsole[0].scrollHeight - pconsole.height());
     if (log_first_show) { log_first_show = false; setTimeout(log_scroll_content_bottom, 400); }
 }
+function initialize() {
+	// initialize checker request
+	var items = $(".mirrors");
+	var i;
+	for (i = 0; i < items.length - 1; i++) {
+		url += "/status/" + $(items[i]).attr("id") + ".json&";
+	}
+	url += "/status/" + $(items[i]).attr("id") + ".json?t=";
+	// initialize table column
+	$('.mirrors').each(function(){
+		var name = $(this).attr("id");
+		$(this).append($("<td id=\"" + name + "-upstream\">"),
+					   $("<td id=\"" + name + "-size\">"),
+					   $("<td id=\"" + name + "-status\">"),
+					   $("<td id=\"" + name + "-lastsync\">"),
+					   $("<td id=\"" + name + "-nextsync\">"),
+					   $("<td>").html("<i id=\"" + name + "-userreq\" class=\"icon-refresh\" title=\"Request to synchronize now\" onclick=\"request_user_update('" + name + "');\"></i>"),
+					   $("<td>").html("<i id=\"" + name + "-logs\" class=\"icon-file\" onclick=\"show_log('" + name + "');\"></i>"));
+	});
+}
 function checker() {
-	$('.mirrors').each(
-		function() {
-			var name = $(this).attr('id');
-			$.getJSON('status/' + name + '.json?t=' + new Date().getTime(), function (result) {
-					var pname = result["name"];
-					td_operation = '<td><i id="userreq-' + pname + '" onclick="request_user_update(\'' + pname + '\');" class="icon-refresh" title="Request to synchronize now"></i></td><td><i title="View realtime updated log" id="showlog-' + pname + '"onclick="show_log(\'' + pname + '\');" class="icon-file" title="Show Log"></i></td>';
-					var pselector = $('#' + pname);
-					pselector.find(":not(:first-child)").remove();
-					switch (result['status']) {
-						case 'success':
-							result['status'] = 'Succeeded'
-							pselector.attr('class', "mirrors success");
-							break;
-						case 'failed':
-							result['status'] = 'Failed'
-							pselector.attr('class', "mirrors error");
-							break;
-						case 'syncing':
-							result['status'] = 'Synchronizing'
-							pselector.attr('class', "mirrors info");
-							break;
-						default:
-							result['status'] = 'Unknown'
-							pselector.attr('class', "mirrors warning");
-					}
-					var td_upstream = ws(result['upstream'], 'td');
-
-					if (!result['size'] || result['size'] < 0)
-						result['size'] = 'Unknown';
-					var td_size = ws(result['size'], 'td');
-
-					var td_status = ws(result['status'], 'td', 'data-localize="status.' + result['status'] + '"');
-
-					var lastupdate_date = new Date(parseInt(result['lastsync']) * 1000);
-					if (!result['lastsync'] || parseInt(result['lastsync']) <= 0) {
-						var not_synced_before = true;
-						var td_lastupdate = ws("Not synced before", "td");
-					} else
-						var td_lastupdate = ws(strftime("%Y-%m-%d %H:%M:%S", lastupdate_date), 'td');
-
-					var nextupdate_date = new Date(parseInt(result['nextsync']) * 1000);
-					if (!result['nextsync'] || parseInt(result['nextsync']) <= 0)
-						if (not_synced_before)
-							var td_nextupdate = ws("Not synced before", "td");
-						else if (parseInt(result['nextsync']) == -1)
-							var td_nextupdate = ws("Forced re-synchronizing", "td");
-                        else if (parseInt(result['nextsync']) == -3)
-                            var td_nextupdate = ws("In maintainance", "td");
-						else
-							var td_nextupdate = ws("User requested update", "td");
-					else
-						var td_nextupdate = ws(strftime("%Y-%m-%d %H:%M:%S", nextupdate_date), 'td');
-
-					pselector.append(td_upstream, td_size, td_status, td_lastupdate, td_nextupdate, td_operation);
-			});
+	var statustxt = {"success": ["Succeeded", "mirrors success"],
+					 "syncing": ["Synchronizing", "mirrors info"],
+					 "failed": ["Failed", "mirrors error"],
+					 "unknown": ["Unknown", "mirrors waring"]};
+	$.getJSON(url + new Date().getTime()).done(function (result) {
+		result = result["statuses"];
+		$(result).each(function(index, content){
+			if (!content["name"] || content["name"] == "stub") return true;
+			switch (content["status"]) {
+				case 'success':
+					$("#" + content["name"] + "-status").text(statustxt["success"][0]);
+					$("#" + content["name"]).attr("class", statustxt["success"][1]);
+					break;
+				case 'syncing':
+					$("#" + content["name"] + "-status").text(statustxt["syncing"][0]);
+					$("#" + content["name"]).attr("class", statustxt["syncing"][1]);
+					break;
+				case 'failed':
+					$("#" + content["name"] + "-status").text(statustxt["failed"][0]);
+					$("#" + content["name"]).attr("class", statustxt["failed"][1]);
+					break;
+				default:
+					$("#" + content["name"] + "-status").text(statustxt["unknown"][0]);
+					$("#" + content["name"]).attr("class", statustxt["unknown"][1]);
+			}
+			$("#" + content["name"] + "-upstream").text(content["upstream"]);
+			$("#" + content["name"] + "-size").text(content["size"]);
+			var lastsync_date = new Date(parseInt(content['lastsync']) * 1000);
+			if (!content['lastsync'] || parseInt(content['lastsync']) <= 0) {
+				var not_synced_before = true;
+				var lastsync = "Initial sync";
+			} else
+				var lastsync = strftime("%Y-%m-%d %H:%M:%S", lastsync_date);
+			var nextsync_date = new Date(parseInt(content['nextsync']) * 1000);
+			if (!content['nextsync'] || parseInt(content['nextsync']) <= 0)
+				if (not_synced_before)
+					var nextsync = "Not synced before";
+				else if (parseInt(content['nextsync']) == -1)
+					var nextsync = "Forced re-synchronizing";
+				else if (parseInt(content['nextsync']) == -3)
+					var nextsync = "In maintainance";
+				else
+					var nextsync = "User requested update";
+			else
+				var nextsync = strftime("%Y-%m-%d %H:%M:%S", nextsync_date);
+			$("#" + content["name"] + "-lastsync").text(lastsync);
+			$("#" + content["name"] + "-nextsync").text(nextsync);
 		});
+	});
 	setTimeout(checker, 10000);
 }
 
+// vim: set noet:
+// Written by Qijiang Fan and Haochen Tong
+// Copyright (c) 2013 Unique Studio

@@ -95,7 +95,7 @@
 						<noscript><div class="alert alert-error"><span data-localize="javascript-needed">Javascript is required. 本页面需要 Javascript。</span></div></noscript>
 					</div>
 					<table class="table" id="mirrorstable">
-						<tr><th data-localize="table.name">Name</th><th data-localize="table.upstream">Upstream</th><th data-localize="table.size">Size</th><th data-localize="table.status">Status</th><th data-localize="table.lastupdate">Last Update</th><th data-localize="table.nextupdate">Next Update</th><th><span id="reqtip" data-toggle="tooltip" title="Request to synchronize now">Req</span></th><th data-localize="table.logs"><span title="View realtime updated log">Logs</span></th></tr>
+						<tr><th data-localize="table.name">Name</th><th data-localize="table.upstream">Upstream</th><th data-localize="table.size">Size</th><th data-localize="table.status">Status</th><th data-localize="table.lastupdate">Last Update</th><th data-localize="table.nextupdate">Next Update</th><th><span data-toggle="tooltip" title="Request to synchronize now">Req</span></th><th data-localize="table.logs"><span data-toggle="tooltip" title="View realtime updated log">Logs</span></th></tr>
 						<tr id="archlinux" class="mirrors"><td><a href="archlinux/">Arch Linux</a></td></tr>
 						<tr id="archlinuxarm" class="mirrors"><td><a href="archlinuxarm/">Arch Linux ARM</a></td></tr>
 						<tr id="backtrack-iso" class="mirrors"><td><a href="backtrack-iso/">BackTrack ISO</a></td></tr>
@@ -145,11 +145,12 @@
 		<script type="text/javascript">
 l10nopts = { skipLanguage: ["en", "en-US"], pathPrefix: "/l10n" };
 $('[data-localize]').localize('index', l10nopts);
-$('#reqtip').tooltip();
+$('[data-toggle=tooltip]').tooltip();
+initialize();
 checker();
 		</script>
 	</body>
 </html>
-<!-- Written by Qijiang Fan and Haochen Tong in Vim -->
-<!-- IT Service Team @ Unique Studio -->
+<!-- Written by Qijiang Fan and Haochen Tong -->
+<!-- Copyright (c) 2013 Unique Studio -->
 <!-- vim: set noet: -->
