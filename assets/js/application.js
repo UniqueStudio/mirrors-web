@@ -142,13 +142,13 @@ function checker() {
 			var nextsync_date = new Date(parseInt(content['nextsync']) * 1000);
 			if (!content['nextsync'] || parseInt(content['nextsync']) <= 0)
 				if (not_synced_before)
-					var nextsync = "Not synced before";
+					var nextsync = "";
 				else if (parseInt(content['nextsync']) == -1)
-					var nextsync = "Forced re-synchronizing";
+					var nextsync = "Forced resyncing";
 				else if (parseInt(content['nextsync']) == -3)
 					var nextsync = "In maintainance";
 				else
-					var nextsync = "User requested update";
+					var nextsync = "User requested sync";
 			else
 				var nextsync = strftime("%Y-%m-%d %H:%M:%S", nextsync_date);
 			$("#" + content["name"] + "-lastsync").text(lastsync);
