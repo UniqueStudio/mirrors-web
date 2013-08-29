@@ -132,7 +132,11 @@ function checker() {
 					$("#" + content["name"]).attr("class", statustxt["unknown"][1]);
 			}
 			$("#" + content["name"] + "-upstream").text(content["upstream"]);
-			$("#" + content["name"] + "-size").text(content["size"]);
+			var size = content['size'];
+			if (!size) {
+				size = 'Unknown';
+			}
+			$("#" + content["name"] + "-size").text(size);
 			var lastsync_date = new Date(parseInt(content['lastsync']) * 1000);
 			if (!content['lastsync'] || parseInt(content['lastsync']) <= 0) {
 				var not_synced_before = true;
