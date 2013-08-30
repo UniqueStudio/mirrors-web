@@ -133,7 +133,7 @@ function checker() {
 			}
 			$("#" + content["name"] + "-upstream").text(content["upstream"]);
 			var size = content['size'];
-			if (!size) {
+			if (!size || size == "-1") {
 				size = 'Unknown';
 			}
 			$("#" + content["name"] + "-size").text(size);

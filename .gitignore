@@ -2,9 +2,9 @@
 
 !index.html
 !robots.txt
-!l10n
-!assets
+!l10n/*
+!assets/*
 !404.html
 !graph/index.html
-!help
+!help/*
 !google*
