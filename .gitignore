@@ -1,10 +1,9 @@
-*
+/*
+/*/
 
-!index.html
-!robots.txt
-!l10n/*
-!assets/*
-!404.html
-!graph/index.html
-!help/*
-!google*
+!/*.html
+!/robots.txt
+!/graph/index.html
+!/l10n
+!/assets
+!/help
