@@ -2,12 +2,12 @@
  * Javascript used in Home page
  */
 
-log_repo = "";
-log_size = 0;
-log_data = "";
-log_show = false;
-log_first_show = true;
-url = "/jsons?"
+var log_repo = "";
+var log_size = 0;
+var log_data = "";
+var log_show = false;
+var log_first_show = true;
+var url = "/jsons?";
 $('#logwindow').on('hidden', function () {
 		log_show = false;
 		log_first_show = true;
@@ -35,7 +35,7 @@ function show_log(repo) {
 function log_fetch_content() {
 	var range="-30720";
 	var newsize;
-	if (!log_show) { return; }
+	if (!log_show) return;
 	if (log_size > 0) range= (log_size - 1).toString() + '-';
 	$.ajax('/latestlog/' + log_repo + '.txt?t=' + new Date().getTime(),
 			{type:'GET',
