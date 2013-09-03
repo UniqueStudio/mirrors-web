@@ -30,6 +30,7 @@ function show_log(repo) {
 	$('#logheader').text("Logs for " + repo_name);
 	$('#logcontent').text("Loading...");
 	$('#logwindow').modal("show");
+	$('#textlog').attr('href', '/latestlog/' + repo + '.txt');
 	log_fetch_content();
 }
 function log_fetch_content() {
