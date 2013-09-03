@@ -110,6 +110,7 @@ function checker() {
 					 "syncing": ["Synchronizing", "mirrors info"],
 					 "failed": ["Failed", "mirrors error"],
 					 "unknown": ["Unknown", "mirrors waring"]};
+	$("#loader").removeAttr("style");
 	$.getJSON(url + new Date().getTime()).done(function (result) {
 		result = result["statuses"];
 		$(result).each(function(index, content){
@@ -158,6 +159,7 @@ function checker() {
 			$("#" + content["name"] + "-lastsync").text(lastsync);
 			$("#" + content["name"] + "-nextsync").text(nextsync);
 		});
+		$("#loader").attr("style", "display: none;");
 	});
 	setTimeout(checker, 10000);
 }
