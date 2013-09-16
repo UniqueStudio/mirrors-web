@@ -8,12 +8,8 @@ var log_data = "";
 var log_show = false;
 var log_first_show = true;
 var url = "/jsons?";
-$('#logwindow').on('hidden', function () {
-		log_show = false;
-		log_first_show = true;
-		});
 
-function request_user_update(name) {
+var request_user_update = function (name) {
 	$.get('/remote/user_request_update/?what=' + name + "&t=" + new Date().getTime(), function(result) {
 		$('#' + name + '-userreq').popover({placement:'left',content:result,trigger:'manual'});
 		$('#' + name + '-userreq').popover('show');
@@ -21,7 +17,7 @@ function request_user_update(name) {
 	});
 }
 
-function show_log(repo) {
+var show_log = function (repo) {
 	log_show = true;
 	log_repo = repo;
 	log_size = 0;
@@ -33,7 +29,7 @@ function show_log(repo) {
 	$('#textlog').attr('href', '/latestlog/' + repo + '.txt');
 	log_fetch_content();
 }
-function log_fetch_content() {
+var log_fetch_content = function () {
 	var range="-30720";
 	var newsize;
 	if (!log_show) return;
@@ -72,11 +68,11 @@ function log_fetch_content() {
 				}
 			});
 }
-function log_scroll_content_bottom() {
+var log_scroll_content_bottom = function () {
 	var pconsole = $('#logcontent');
 	pconsole.scrollTop(pconsole[0].scrollHeight - pconsole.height());
 }
-function log_fill_content(data) {
+var log_fill_content = function (data) {
 	var pconsole = $('#logcontent');
 	var offset = 30; // No idea why there's always 30px
 	var oldscrollHeight = pconsole[0].scrollHeight
@@ -86,7 +82,7 @@ function log_fill_content(data) {
 		pconsole.scrollTop(pconsole[0].scrollHeight - pconsole.height());
     if (log_first_show) { log_first_show = false; setTimeout(log_scroll_content_bottom, 400); }
 }
-function initialize() {
+var initialize = function() {
 	// initialize checker request
 	var items = $(".mirrors");
 	var i;
@@ -105,8 +101,12 @@ function initialize() {
 					   $("<td>").html("<i id=\"" + name + "-userreq\" class=\"icon-refresh\" title=\"Request to synchronize now\" onclick=\"request_user_update('" + name + "');\"></i>"),
 					   $("<td>").html("<i id=\"" + name + "-logs\" class=\"icon-file\" onclick=\"show_log('" + name + "');\"></i>"));
 	});
+	$('#logwindow').on('hidden', function () {
+		log_show = false;
+		log_first_show = true;
+	});
 }
-function checker() {
+var checker = function() {
 	var statustxt = {"success": ["Succeeded", "mirrors success"],
 					 "syncing": ["Synchronizing", "mirrors info"],
 					 "failed": ["Failed", "mirrors error"],
