@@ -49,6 +49,9 @@
 							<li><a href="/help/" data-localize="nav.help">Help</a></li>
 							<li class="active"><a href="/graph/" data-localize="nav.graph">Graph</a></li>
 						</ul>
+						<ul class="nav pull-right">
+							<li><a>Last updated at <span id="time"></span></a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -120,6 +123,8 @@
 			pathPrefix: "/l10n"
 		};
 		$('[data-localize]').localize('graph', l10nopts);
+		$('#time').text(new Date());
+		setTimeout(function(){location.reload()}, 300000);
 		</script>
 	</body>
 </html>
