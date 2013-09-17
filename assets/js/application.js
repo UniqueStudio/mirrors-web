@@ -31,7 +31,7 @@ var show_log = function (repo) {
 }
 var log_fetch_content = function () {
 	var range="-30720";
-	var newsize;
+	var newsize, diffsize = 0;
 	if (!log_show) return;
 	if (log_size > 0) range= (log_size - 1).toString() + '-';
 	$.ajax('/latestlog/' + log_repo + '.txt?t=' + new Date().getTime(),
@@ -41,6 +41,11 @@ var log_fetch_content = function () {
 				function(data, s, xhr) {
 					if (xhr.status == 206) {
 						newsize = parseInt(xhr.getResponseHeader('Content-Range').split('/')[1]);
+						diffsize = parseInt(xhr.getResponseHeader('Content-Length'));
+						if (diffsize == 1) {
+							setTimeout(log_fetch_content, 200);
+							return;
+						}
 					} else if (xhr.status == 200) {
 						newsize = data.length;
 					}
