@@ -102,7 +102,7 @@ var initialize = function() {
 					   $("<td id=\"" + name + "-size\">"),
 					   $("<td id=\"" + name + "-status\">"),
 					   $("<td id=\"" + name + "-lastsync\">"),
-					   $("<td id=\"" + name + "-nextsync\">"),
+					   //$("<td id=\"" + name + "-nextsync\">"),
 					   $("<td>").html("<i id=\"" + name + "-userreq\" class=\"icon-refresh\" title=\"Request to synchronize now\" onclick=\"request_user_update('" + name + "');\"></i>"),
 					   $("<td>").html("<i id=\"" + name + "-logs\" class=\"icon-file\" onclick=\"show_log('" + name + "');\"></i>"));
 	});

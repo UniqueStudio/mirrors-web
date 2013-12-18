@@ -8,6 +8,7 @@
     },
     "lead" : "伺服統計情報",
     "traffic" : "総流量",
+    "httptraffic" : "HTTP 檔案流量",
     "conntrack" : "連接數",
     "nginx-request" : "Nginx 請求數",
     "nginx-status" : "Nginx 狀況",

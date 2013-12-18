@@ -8,6 +8,7 @@
     },
     "lead" : "服务器统计信息",
     "traffic" : "总流量",
+    "httptraffic" : "HTTP 文件流量"
     "conntrack" : "连接数",
     "nginx-request" : "Nginx 请求数",
     "nginx-status" : "Nginx 状态",
