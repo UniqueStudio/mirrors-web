@@ -12,8 +12,8 @@
         "upstream" : "上游",
         "size" : "大小",
         "status" : "狀態",
-        "lastupdate" : "最近同步時間",
-        "nextupdate" : "下次同步時間"
+        "lastsync" : "最近同步時間",
+        "nextsync" : "下次同步時間"
     },
     "credit" : "本伺服由 <a href=\"http://qiming.hust.edu.cn/\" target=\"qiming\">華中科技大學啓明學院</a> 和 <a href=\"http://www.hustunique.com/\" target=\"_blank\">聯創團隊</a> 提供<br/>", 
     "network" : "本伺服由 <a href=\"http://ncc.hust.edu.cn\" target=\"ncc\">華中科技大學網絡與計算中心</a> 提供網路支援",

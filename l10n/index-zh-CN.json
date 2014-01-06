@@ -12,8 +12,8 @@
         "upstream" : "上游",
         "size" : "大小",
         "status" : "状态",
-        "lastupdate" : "最近同步时间",
-        "nextupdate" : "下次同步时间",
+        "lastsync" : "最近同步时间",
+        "nextsync" : "下次同步时间",
         "logs" : "日志"
     },
     "credit" : "本站由 <a href=\"http://qiming.hust.edu.cn/\" target=\"qiming\">华中科技大学启明学院</a> 下的 <a href=\"http://www.hustunique.com/\" target=\"_blank\">联创团队</a> 强力驱动",
