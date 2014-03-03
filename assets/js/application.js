@@ -152,7 +152,7 @@ var checker = function() {
 				var lastsync = strftime("%Y-%m-%d %H:%M:%S", lastsync_date);
 			var nextsync_date = new Date(parseInt(content['nextsync']) * 1000);
 			if (!content['nextsync'] || parseInt(content['nextsync']) <= 0)
-				if (not_synced_before || parseInt(content['nextsync'] == -2))
+				if (not_synced_before || parseInt(content['nextsync']) == -2)
 					var nextsync = "TBD";
 				else if (parseInt(content['nextsync']) == -1)
 					var nextsync = "Force resyncing";
