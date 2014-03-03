@@ -172,4 +172,4 @@ var checker = function() {
 
 // vim: set noet:
 // Written by Qijiang Fan and Haochen Tong
-// Copyright (c) 2013 Unique Studio
+// Copyright (c) 2013-2014 Unique Studio
