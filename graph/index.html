@@ -123,10 +123,7 @@
 		<script src="/assets/js/jquery.min.js" type="text/javascript"></script>
 		<script src="/assets/js/jquery.localize.js" type="text/javascript"></script>
 		<script type="text/javascript">
-		l10nopts = {
-			skipLanguage: ["en", "en-US"],
-			pathPrefix: "/l10n"
-		};
+		l10nopts = {skipLanguage: ["en", "en-US"], pathPrefix: "/l10n"};
 		$('[data-localize]').localize('graph', l10nopts);
 		$('#time').text(new Date());
 		setTimeout(function(){location.reload()}, 300000);
