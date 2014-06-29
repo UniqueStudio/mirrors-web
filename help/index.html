@@ -62,7 +62,8 @@
 				<div class="row-fluid">
 					<div class="span3" id="sidenav">
 						<ul class="nav nav-pills nav-stacked affix" style="width: 15%">
-							<li class="active"><a href="#archlinux"><i class="icon-chevron-right"></i> Arch Linux</a></li>
+							<li class="active"><a href="#aosp"><i class="icon-chevron-right"></i> Android Open Source Project</a></li>
+							<li><a href="#archlinux"><i class="icon-chevron-right"></i> Arch Linux</a></li>
 							<li><a href="#archlinuxarm"><i class="icon-chevron-right"></i> Arch Linux ARM</a></li>
 							<li><a href="#centos"><i class="icon-chevron-right"></i> CentOS</a></li>
 							<li><a href="#cygwin"><i class="icon-chevron-right"></i> Cygwin</a></li>
@@ -70,12 +71,25 @@
 							<li><a href="#fedora"><i class="icon-chevron-right"></i> Fedora</a></li>
 							<li><a href="#gentoo"><i class="icon-chevron-right"></i> Gentoo</a></li>
 							<li><a href="#gentoo-portage"><i class="icon-chevron-right"></i> Gentoo Portage</a></li>
+							<li><a href="#linux"><i class="icon-chevron-right"></i> Linux Kernel</a></li>
 							<li><a href="#pypi"><i class="icon-chevron-right"></i> PyPI</a></li>
 							<li><a href="#rubygems"><i class="icon-chevron-right"></i> RubyGems</a></li>
 							<li><a href="#ubuntu"><i class="icon-chevron-right"></i> Ubuntu</a></li>
 						</ul>
 					</div>
 					<div id="content" class="span9">
+						<section id="aosp">
+							<div class="page-header"><h2>Android Open Source Project</h2></div>
+							<h3 data-localize="usage">Usage</h3>
+							<p>Use the following command to initialize a repo client:</p>
+							<pre>repo init -u git://mirrors.hustunique.com/android/platform/manifest.git</pre>
+							<h3 data-localize="related">Related links</h3>
+							<ul>
+								<li><a href="http://source.android.com/index.html">Android Developers</a></li>
+								<li><a href="http://source.android.com/source/index.html">The Android Source Code</a></li>
+								<li><a href="http://source.android.com/source/building.html">Downloading and Building</a></li>
+							</ul>
+						</section>
 						<section id="archlinux">
 							<div class="page-header"><h2>Arch Linux</h2></div>
 							<h3 data-localize="march">Mirrored architectures</h3>
@@ -251,6 +265,7 @@ function change_debian_ver() {
 							<p>Version: <select id="debian_ver_selector" name="version" onchange="change_debian_ver();">
 							<option value="VERSION" selected>Please select</option>
 							<option value="stable">Stable</option>
+							<option value="jessie">Jessie (testing)</option>
 							<option value="wheezy">Wheezy (stable)</option>
 							<option value="testing">Testing</option>
 							<option value="unstable">Unstable</option>
@@ -391,6 +406,16 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch</pre>
 								<li>Wiki: <a href="http://en.gentoo-wiki.com/">http://en.gentoo-wiki.com/</a></li>
 							</ul>
 						</section>
+						<section id="linux">
+							<div class="page-header"><h2>Linux Kernel</h2></div>
+							<h3 data-localize="usage">Usage</h3>
+							<p>Use the following command to clone the Linux kernel source tree:</p>
+							<pre>git clone https://mirrors.hustunique.com/linux.git</pre>
+							<h3 data-localize="related">Related links</h3>
+							<ul>
+								<li>Official homepage: <a href="http://www.kernel.org/">http://www.kernel.org/</a></li>
+							</ul>
+						</section>
 						<section id="pypi">
 							<div class="page-header"><h2>PyPI </h2></div>
 							<h3 data-localize="usage">Usage</h3>
@@ -431,6 +456,8 @@ function change_ubuntu_ver() {
 							</script>
 							<p>Version: <select id="ubuntu_ver_selector" name="version" onchange="change_ubuntu_ver();">
 							<option value="VERSION" selected>Please select</option>
+							<option value="utopic">Utopic 14.10</option>
+							<option value="trusty">Trusty 14.04</option>
 							<option value="saucy">Saucy 13.10</option>
 							<option value="raring">Raring 13.04</option>
 							<option value="quantal">Quantal 12.10</option>
